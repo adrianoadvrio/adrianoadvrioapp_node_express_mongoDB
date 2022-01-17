@@ -1,5 +1,19 @@
 let express = require("express")
+
+//let mongodb = require("mongodb")
+const mongodb = require("mongodb").MongoClient;
+//https://stackoverflow.com/questions/56026108/connect-is-not-a-function-when-connecting-to-mongodb
+
+
 let app = express()
+
+let db
+
+let connectionString = 'mongodb+srv://adrianoadvrio:Flokiperry@cluster0.rytfi.gcp.mongodb.net/agenda?retryWrites=true&w=majority'
+mongodb.connect(connectionString, {useNewUrlParser: true}, function(err, client){
+db = client.db()
+app.listen(3000)
+})
 
 app.use(express.urlencoded({extended: false}))
 
@@ -61,10 +75,12 @@ res.send(`
 
 app.post('/creat-item', function(req, res){
 
-    console.log(req.body.item)
+    db.collection('items').insertOne({text:req.body.item}, function(){
     res.send('Thanks for submitting the form.')
+    })
+    
 
 } )
 
-app.listen(3000)
+
 
