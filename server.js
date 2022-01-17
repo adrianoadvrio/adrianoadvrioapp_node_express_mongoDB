@@ -4,7 +4,6 @@ let express = require("express")
 const mongodb = require("mongodb").MongoClient;
 //https://stackoverflow.com/questions/56026108/connect-is-not-a-function-when-connecting-to-mongodb
 
-
 let app = express()
 
 let db
