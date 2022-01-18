@@ -18,6 +18,7 @@ db = client.db()
 app.listen(3000)
 })
 
+app.use(express.json())// edit work on fly
 app.use(express.urlencoded({extended: false}))
 
 app.get("/", function(req, res) {
@@ -58,7 +59,7 @@ db.collection('items').find().toArray(function(err, items){
         
       </div>
       
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/edit.js"></script>
     
     
@@ -77,8 +78,10 @@ app.post('/creat-item', function(req, res){
     res.redirect('/')
     })
     
-
 } )
 
-
+app.post("/update-item", function(req, res){
+console.log(req.body.text)
+res.send("ok")
+}) // axios promise edit
 
