@@ -8,6 +8,10 @@ let app = express()
 
 let db
 
+///////////////edit
+app.use(express.static('public')) 
+
+
 let connectionString = 'mongodb+srv://adrianoadvrio:Flokiperry@cluster0.rytfi.gcp.mongodb.net/agenda?retryWrites=true&w=majority'
 mongodb.connect(connectionString, {useNewUrlParser: true}, function(err, client){
 db = client.db()
@@ -54,6 +58,11 @@ db.collection('items').find().toArray(function(err, items){
         
       </div>
       
+
+    <script src="/edit.js"></script>
+    
+    
+     
     </body>
     </html>
     `)
