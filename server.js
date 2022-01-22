@@ -1,12 +1,13 @@
-let express = require("express")
+let express = require('express')
+let mongodb = require('mongodb')
 
 //let mongodb = require("mongodb")
-const mongodb = require("mongodb").MongoClient;
-//https://stackoverflow.com/questions/56026108/connect-is-not-a-function-when-connecting-to-mongodb
+//const ObjectId = require('mongodb').ObjectId  /////////////////////////////////////////////////////
+//const mongodb = require('mongodb').MongoClient;
+https://stackoverflow.com/questions/56026108/connect-is-not-a-function-when-connecting-to-mongodb
 
-let app = express()
-
-let db
+var app = express()
+var db
 
 ///////////////edit
 app.use(express.static('public')) 
@@ -50,7 +51,7 @@ db.collection('items').find().toArray(function(err, items){
               return `<li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
               <span class="item-text">${item.text}</span>
               <div>
-                <button class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
+                <button data-id="${item._id}" class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
                 <button class="delete-me btn btn-danger btn-sm">Borrar</button>
               </div>
             </li>`
@@ -59,7 +60,7 @@ db.collection('items').find().toArray(function(err, items){
         
       </div>
       
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/edit.js"></script>
     
     
@@ -77,11 +78,13 @@ app.post('/creat-item', function(req, res){
     db.collection('items').insertOne({text:req.body.item}, function(){
     res.redirect('/')
     })
-    
-} )
+ })
 
-app.post("/update-item", function(req, res){
-console.log(req.body.text)
-res.send("ok")
-}) // axios promise edit
+app.post('/update-item', function(req, res) {
 
+  
+  db.collection('items').findOneAndUpdate({ _id: new ObjectId(req.body.id) }, { $set: { text: req.body.text } }, function(){ res.send("Success") 
+
+})   
+
+}) 
